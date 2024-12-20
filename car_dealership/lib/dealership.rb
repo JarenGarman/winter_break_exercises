@@ -17,4 +17,8 @@ class Dealership
   def add_car(car)
     @inventory << car
   end
+
+  def has_inventory? # rubocop:disable Naming/PredicateName
+    !@inventory.empty?
+  end
 end
