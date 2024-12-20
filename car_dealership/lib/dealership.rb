@@ -17,4 +17,20 @@ class Dealership
   def add_car(car)
     @inventory << car
   end
+
+  def has_inventory? # rubocop:disable Naming/PredicateName
+    !@inventory.empty?
+  end
+
+  def cars_by_make(make)
+    @inventory.select { |car| car.make == make }
+  end
+
+  def total_value
+    @inventory.sum(&:total_cost)
+  end
+
+  def details
+    { 'total_value' => total_value, 'address' => @address }
+  end
 end
