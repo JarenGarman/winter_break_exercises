@@ -27,5 +27,19 @@ RSpec.describe Car do
     it 'has a total cost' do
       expect(car.total_cost).to eq(54_000)
     end
+
+    it 'has no paint' do
+      expect(car.color).to be_nil
+    end
+  end
+
+  describe '#paint!' do
+    before do
+      car.paint!(:blue)
+    end
+
+    it 'can be painted' do
+      expect(car.color).to eq(:blue)
+    end
   end
 end
