@@ -42,4 +42,22 @@ RSpec.describe Dealership do
       expect(dealership.inventory_count).to eq(2)
     end
   end
+
+  describe '#has_inventory?' do
+    subject(:has_inventory) { dealership.has_inventory? }
+
+    context 'without inventory' do
+      it { is_expected.to be false }
+    end
+
+    context 'with inventory' do
+      let(:car) { described_class.new('Ford Mustang', 1500, 36) }
+
+      before do
+        dealership.add_car(car)
+      end
+
+      it { is_expected.to be true }
+    end
+  end
 end
