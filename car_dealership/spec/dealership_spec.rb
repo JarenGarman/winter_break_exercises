@@ -60,4 +60,26 @@ RSpec.describe Dealership do
       it { is_expected.to be true }
     end
   end
+
+  describe '#cars_by_make' do
+    let(:first_car) { Car.new('Ford Mustang', 1500, 36) }
+    let(:second_car) { Car.new('Toyota Prius', 1000, 48) }
+    let(:third_car) { Car.new('Toyota Tercel', 500, 48) }
+    let(:fourth_car) { Car.new('Chevrolet Bronco', 1250, 24) }
+
+    before do
+      dealership.add_car(first_car)
+      dealership.add_car(second_car)
+      dealership.add_car(third_car)
+      dealership.add_car(fourth_car)
+    end
+
+    it 'can grab a car by make' do
+      expect(dealership.cars_by_make('Ford')).to eq([first_car])
+    end
+
+    it 'can grab multiple cars by make' do
+      expect(dealership.cars_by_make('Toyota')).to eq([second_car, third_car])
+    end
+  end
 end
