@@ -21,4 +21,8 @@ class Dealership
   def has_inventory? # rubocop:disable Naming/PredicateName
     !@inventory.empty?
   end
+
+  def cars_by_make(make)
+    @inventory.select { |car| car.make == make }
+  end
 end
