@@ -116,4 +116,17 @@ RSpec.describe Dealership do
       expect(dealership.average_price_of_car).to eq('39,000')
     end
   end
+
+  describe '#cars_sorted_by_price' do
+    before do
+      dealership.add_car(first_car)
+      dealership.add_car(second_car)
+      dealership.add_car(third_car)
+      dealership.add_car(fourth_car)
+    end
+
+    it 'can grab cars sorted by price' do
+      expect(dealership.cars_sorted_by_price).to eq([third_car, fourth_car, second_car, first_car])
+    end
+  end
 end
