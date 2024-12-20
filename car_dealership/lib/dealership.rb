@@ -33,4 +33,16 @@ class Dealership
   def details
     { 'total_value' => total_value, 'address' => @address }
   end
+
+  def average_price_of_car
+    (total_value / inventory_count).digits.each_slice(3).map(&:join).join(',').reverse
+  end
+
+  def cars_sorted_by_price
+    @inventory.sort_by(&:total_cost)
+  end
+
+  def inventory_hash
+    @inventory.group_by(&:make)
+  end
 end

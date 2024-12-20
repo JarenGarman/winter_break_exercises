@@ -5,6 +5,11 @@ require_relative 'spec_helper'
 RSpec.describe Dealership do
   subject(:dealership) { described_class.new('Acme Auto', '123 Main Street') }
 
+  let(:first_car) { Car.new('Ford Mustang', 1500, 36) }
+  let(:second_car) { Car.new('Toyota Prius', 1000, 48) }
+  let(:third_car) { Car.new('Toyota Tercel', 500, 48) }
+  let(:fourth_car) { Car.new('Chevrolet Bronco', 1250, 24) }
+
   describe '#initialize' do
     it { is_expected.to be_an_instance_of(described_class) }
 
@@ -26,9 +31,6 @@ RSpec.describe Dealership do
   end
 
   describe '#add_car' do
-    let(:first_car) { Car.new('Ford Mustang', 1500, 36) }
-    let(:second_car) { Car.new('Toyota Prius', 1000, 48) }
-
     before do
       dealership.add_car(first_car)
       dealership.add_car(second_car)
@@ -51,10 +53,8 @@ RSpec.describe Dealership do
     end
 
     context 'with inventory' do
-      let(:car) { Car.new('Ford Mustang', 1500, 36) }
-
       before do
-        dealership.add_car(car)
+        dealership.add_car(first_car)
       end
 
       it { is_expected.to be true }
@@ -62,11 +62,6 @@ RSpec.describe Dealership do
   end
 
   describe '#cars_by_make' do
-    let(:first_car) { Car.new('Ford Mustang', 1500, 36) }
-    let(:second_car) { Car.new('Toyota Prius', 1000, 48) }
-    let(:third_car) { Car.new('Toyota Tercel', 500, 48) }
-    let(:fourth_car) { Car.new('Chevrolet Bronco', 1250, 24) }
-
     before do
       dealership.add_car(first_car)
       dealership.add_car(second_car)
@@ -84,11 +79,6 @@ RSpec.describe Dealership do
   end
 
   describe '#total_value' do
-    let(:first_car) { Car.new('Ford Mustang', 1500, 36) }
-    let(:second_car) { Car.new('Toyota Prius', 1000, 48) }
-    let(:third_car) { Car.new('Toyota Tercel', 500, 48) }
-    let(:fourth_car) { Car.new('Chevrolet Bronco', 1250, 24) }
-
     before do
       dealership.add_car(first_car)
       dealership.add_car(second_car)
@@ -102,11 +92,6 @@ RSpec.describe Dealership do
   end
 
   describe '#details' do
-    let(:first_car) { Car.new('Ford Mustang', 1500, 36) }
-    let(:second_car) { Car.new('Toyota Prius', 1000, 48) }
-    let(:third_car) { Car.new('Toyota Tercel', 500, 48) }
-    let(:fourth_car) { Car.new('Chevrolet Bronco', 1250, 24) }
-
     before do
       dealership.add_car(first_car)
       dealership.add_car(second_car)
@@ -116,6 +101,49 @@ RSpec.describe Dealership do
 
     it 'can return details' do
       expect(dealership.details).to eq({ 'total_value' => 156_000, 'address' => '123 Main Street' })
+    end
+  end
+
+  describe '#average_price_of_car' do
+    before do
+      dealership.add_car(first_car)
+      dealership.add_car(second_car)
+      dealership.add_car(third_car)
+      dealership.add_car(fourth_car)
+    end
+
+    it 'can calculate average price of car' do
+      expect(dealership.average_price_of_car).to eq('39,000')
+    end
+  end
+
+  describe '#cars_sorted_by_price' do
+    before do
+      dealership.add_car(first_car)
+      dealership.add_car(second_car)
+      dealership.add_car(third_car)
+      dealership.add_car(fourth_car)
+    end
+
+    it 'can grab cars sorted by price' do
+      expect(dealership.cars_sorted_by_price).to eq([third_car, fourth_car, second_car, first_car])
+    end
+  end
+
+  describe '#dealership.inventory_hash' do
+    before do
+      dealership.add_car(first_car)
+      dealership.add_car(second_car)
+      dealership.add_car(third_car)
+      dealership.add_car(fourth_car)
+    end
+
+    it 'can create inventory hash' do
+      expect(dealership.inventory_hash).to eq({
+                                                'Ford' => [first_car],
+                                                'Toyota' => [second_car, third_car],
+                                                'Chevrolet' => [fourth_car]
+                                              })
     end
   end
 end
