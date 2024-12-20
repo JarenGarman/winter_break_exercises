@@ -37,4 +37,8 @@ class Dealership
   def average_price_of_car
     (total_value / inventory_count).digits.each_slice(3).map(&:join).join(',').reverse
   end
+
+  def cars_sorted_by_price
+    @inventory.sort_by(&:total_cost)
+  end
 end
