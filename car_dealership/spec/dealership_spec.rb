@@ -139,11 +139,11 @@ RSpec.describe Dealership do
     end
 
     it 'can create inventory hash' do
-      expect(dealership.dealership.inventory_hash).to eq({
-                                                           'Ford' => [first_car],
-                                                           'Toyota' => [second_car, third_car],
-                                                           'Chevrolet' => [fourth_car]
-                                                         })
+      expect(dealership.inventory_hash).to eq({
+                                                'Ford' => [first_car],
+                                                'Toyota' => [second_car, third_car],
+                                                'Chevrolet' => [fourth_car]
+                                              })
     end
   end
 end
