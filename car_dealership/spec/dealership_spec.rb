@@ -82,4 +82,22 @@ RSpec.describe Dealership do
       expect(dealership.cars_by_make('Toyota')).to eq([second_car, third_car])
     end
   end
+
+  describe '#total_value' do
+    let(:first_car) { Car.new('Ford Mustang', 1500, 36) }
+    let(:second_car) { Car.new('Toyota Prius', 1000, 48) }
+    let(:third_car) { Car.new('Toyota Tercel', 500, 48) }
+    let(:fourth_car) { Car.new('Chevrolet Bronco', 1250, 24) }
+
+    before do
+      dealership.add_car(first_car)
+      dealership.add_car(second_car)
+      dealership.add_car(third_car)
+      dealership.add_car(fourth_car)
+    end
+
+    it 'can calculate total value' do
+      expect(dealership.total_value).to eq(156_000)
+    end
+  end
 end
