@@ -24,4 +24,22 @@ RSpec.describe Dealership do
       expect(dealership.inventory_count).to eq(0)
     end
   end
+
+  describe '#add_car' do
+    let(:first_car) { Car.new('Ford Mustang', 1500, 36) }
+    let(:second_car) { Car.new('Toyota Prius', 1000, 48) }
+
+    before do
+      dealership.add_car(first_car)
+      dealership.add_car(second_car)
+    end
+
+    it 'can add cars to inventory' do
+      expect(dealership.inventory).to eq([first_car, second_car])
+    end
+
+    it 'can update inventory count' do
+      expect(dealership.inventory_count).to eq(2)
+    end
+  end
 end
