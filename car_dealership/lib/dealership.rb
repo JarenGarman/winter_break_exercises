@@ -29,4 +29,8 @@ class Dealership
   def total_value
     @inventory.sum(&:total_cost)
   end
+
+  def details
+    { 'total_value' => total_value, 'address' => @address }
+  end
 end
