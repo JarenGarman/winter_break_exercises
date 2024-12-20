@@ -129,4 +129,21 @@ RSpec.describe Dealership do
       expect(dealership.cars_sorted_by_price).to eq([third_car, fourth_car, second_car, first_car])
     end
   end
+
+  describe '#dealership.inventory_hash' do
+    before do
+      dealership.add_car(first_car)
+      dealership.add_car(second_car)
+      dealership.add_car(third_car)
+      dealership.add_car(fourth_car)
+    end
+
+    it 'can create inventory hash' do
+      expect(dealership.dealership.inventory_hash).to eq({
+                                                           'Ford' => [first_car],
+                                                           'Toyota' => [second_car, third_car],
+                                                           'Chevrolet' => [fourth_car]
+                                                         })
+    end
+  end
 end
