@@ -8,6 +8,14 @@ RSpec.describe Dealership do
   describe '#initialize' do
     it { is_expected.to be_an_instance_of(described_class) }
 
+    it 'has a name' do
+      expect(dealership.name).to eq('Acme Auto')
+    end
+
+    it 'has an address' do
+      expect(dealership.address).to eq('123 Main Street')
+    end
+
     it 'has empty inventory' do
       expect(dealership.inventory).to eq([])
     end
