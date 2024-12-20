@@ -51,7 +51,7 @@ RSpec.describe Dealership do
     end
 
     context 'with inventory' do
-      let(:car) { described_class.new('Ford Mustang', 1500, 36) }
+      let(:car) { Car.new('Ford Mustang', 1500, 36) }
 
       before do
         dealership.add_car(car)
