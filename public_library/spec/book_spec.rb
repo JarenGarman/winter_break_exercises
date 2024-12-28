@@ -13,6 +13,8 @@ RSpec.describe Book do
   end
 
   describe '#initialize' do
+    it { is_expected.to be_instance_of described_class }
+
     it 'has a title' do
       expect(book.title).to eq('To Kill a Mockingbird')
     end
