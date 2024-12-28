@@ -16,4 +16,10 @@ RSpec.describe Author do
       expect(author.books).to eq([])
     end
   end
+
+  describe '#write' do
+    subject(:write) { author.write('Jane Eyre', 'October 16, 1847') }
+
+    it { is_expected.to be_instance_of Book }
+  end
 end
