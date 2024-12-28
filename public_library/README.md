@@ -26,7 +26,6 @@ pry(main)> book.publication_year
 #=> "1960"
 ```
 
-
 Use TDD to create an `Author` class that responds to the following interaction pattern.
 
 The `write` method must take two Strings as arguments and return an instance of `Book`.
@@ -66,7 +65,6 @@ pry(main)> charlotte_bronte.books
 ## Iteration 2
 
 Use TDD to create a `Library` class that responds to the following interaction pattern.
-
 
 ```ruby
 pry(main)> require './lib/library'
@@ -127,7 +125,6 @@ Use TDD to implement the following methods on the `Library` class:
 | checked_out_books        | Return an array of `Book` objects that are currently checked out. |
 | return(book)             | Takes a `Book` as an argument. Calling this method means that a book is no longer checked out. |
 
-
 ## Iteration 4
 
 Use TDD to implement these methods to your Library class.
@@ -136,5 +133,3 @@ Use TDD to implement these methods to your Library class.
 |--------------------      |-------------------- |
 | most_popular_book        | Return the `Book` object that has been checked out the most. |
 | inventory                | Returns a Hash where the keys are the `Author` objects and the value is an array that holds each author's `Book` objects. `Example: {charlotte_bronte(Author object) => [jane_eyre, professor, villette](Book objects)}` |
-
-
