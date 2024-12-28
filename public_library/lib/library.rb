@@ -42,4 +42,8 @@ class Library
     @authors.each { |author| inventory[author] = author.books }
     inventory
   end
+
+  def most_popular_book
+    books.max_by(&:checked_out_amount)
+  end
 end
