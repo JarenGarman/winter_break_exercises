@@ -92,4 +92,26 @@ RSpec.describe Library do
       end
     end
   end
+
+  describe '#return' do
+    subject(:return_book) { library.return(jane_eyre) }
+
+    context 'when the book is not checked out' do
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the book is checked out' do
+      before do
+        library.checkout(jane_eyre)
+      end
+
+      it { is_expected.to eq(jane_eyre) }
+
+      it 'removes book from checked_out_books' do
+        library.return(jane_eyre)
+
+        expect(library.checked_out_books).to eq([])
+      end
+    end
+  end
 end
