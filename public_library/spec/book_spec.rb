@@ -26,5 +26,21 @@ RSpec.describe Book do
     it 'has a publication year' do
       expect(book.publication_year).to eq('1960')
     end
+
+    it 'has not been checked out' do
+      expect(book.checked_out_amount).to eq(0)
+    end
+  end
+
+  describe '#checkout' do
+    subject(:checkout) { book.checkout }
+
+    it { is_expected.to eq(1) }
+
+    it 'increases checked out amount' do
+      book.checkout
+
+      expect(book.checked_out_amount).to eq(1)
+    end
   end
 end

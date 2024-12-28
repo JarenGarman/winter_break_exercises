@@ -89,6 +89,12 @@ RSpec.describe Library do
 
           expect(library.checked_out_books).to eq([jane_eyre])
         end
+
+        it 'can increase books checked out amount' do
+          library.checkout(jane_eyre)
+
+          expect(jane_eyre.checked_out_amount).to eq(1)
+        end
       end
     end
   end
@@ -113,6 +119,41 @@ RSpec.describe Library do
 
         expect(library.checked_out_books).to eq([])
       end
+    end
+  end
+
+  describe '#inventory' do
+    subject(:inventory) { library.inventory }
+
+    before do
+      library.add_author(charlotte_bronte)
+      library.add_author(harper_lee)
+    end
+
+    it 'returns correct hash' do
+      jane_eyre = charlotte_bronte.write('Jane Eyre', 'October 16, 1847')
+      professor = charlotte_bronte.write('The Professor', '1857')
+      villette = charlotte_bronte.write('Villette', '1853')
+      mockingbird = harper_lee.write('To Kill a Mockingbird', 'July 11, 1960')
+
+      expect(inventory).to eq({ charlotte_bronte => [jane_eyre, professor, villette], harper_lee => [mockingbird] })
+    end
+  end
+
+  describe '#most_popular_book' do
+    subject(:popular) { library.most_popular_book }
+
+    before do
+      library.add_author(charlotte_bronte)
+    end
+
+    it 'can identify most popular book' do
+      jane_eyre = charlotte_bronte.write('Jane Eyre', 'October 16, 1847')
+      charlotte_bronte.write('The Professor', '1857')
+
+      library.checkout(jane_eyre)
+
+      expect(popular).to eq(jane_eyre)
     end
   end
 end

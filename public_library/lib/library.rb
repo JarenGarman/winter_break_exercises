@@ -27,6 +27,7 @@ class Library
     return unless books.include?(book) && !checked_out_books.include?(book)
 
     @checked_out_books << book
+    book.checkout
     book
   end
 
@@ -34,5 +35,15 @@ class Library
     return unless checked_out_books.include?(book)
 
     @checked_out_books.delete(book)
+  end
+
+  def inventory
+    inventory = {}
+    @authors.each { |author| inventory[author] = author.books }
+    inventory
+  end
+
+  def most_popular_book
+    books.max_by(&:checked_out_amount)
   end
 end
