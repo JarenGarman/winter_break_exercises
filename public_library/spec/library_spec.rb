@@ -11,5 +11,13 @@ RSpec.describe Library do
     it 'has a name' do
       expect(library.name).to eq('Denver Public Library')
     end
+
+    it 'has no books' do
+      expect(library.books).to eq([])
+    end
+
+    it 'has no authors' do
+      expect(library.authors).to eq([])
+    end
   end
 end
