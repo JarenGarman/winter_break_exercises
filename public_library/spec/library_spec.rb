@@ -85,6 +85,8 @@ RSpec.describe Library do
         it { is_expected.to eq(jane_eyre) }
 
         it 'can check out book' do
+          library.checkout(jane_eyre)
+
           expect(library.checked_out_books).to eq([jane_eyre])
         end
       end
