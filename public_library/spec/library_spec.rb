@@ -102,6 +102,7 @@ RSpec.describe Library do
 
     context 'when the book is checked out' do
       before do
+        library.add_author(charlotte_bronte)
         library.checkout(jane_eyre)
       end
 
