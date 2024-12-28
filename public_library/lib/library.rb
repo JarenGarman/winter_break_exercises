@@ -2,11 +2,12 @@
 
 # TLD
 class Library
-  attr_reader :name, :authors
+  attr_reader :name, :authors, :checked_out_books
 
   def initialize(name)
     @name = name
     @authors = []
+    @checked_out_books = []
   end
 
   def books
@@ -20,5 +21,12 @@ class Library
   def publication_time_frame(author)
     years = author.books.map(&:publication_year).sort
     { start: years[0], end: years[-1] }
+  end
+
+  def checkout(book)
+    return unless books.include?(book) && !checked_out_books.include?(book)
+
+    @checked_out_books << book
+    book
   end
 end
