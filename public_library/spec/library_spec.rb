@@ -139,4 +139,24 @@ RSpec.describe Library do
       expect(inventory).to eq({ charlotte_bronte => [jane_eyre, professor, villette], harper_lee => [mockingbird] })
     end
   end
+
+  describe '#most_popular_book' do
+    subject(:popular) { library.most_popular_book }
+
+    before do
+      library.add_author(charlotte_bronte)
+
+      jane_eyre = charlotte_bronte.write('Jane Eyre', 'October 16, 1847')
+      professor = charlotte_bronte.write('The Professor', '1857')
+      villette = charlotte_bronte.write('Villette', '1853')
+
+      library.checkout(jane_eyre)
+      library.checkout(professor)
+      library.checkout(villette)
+      library.return(jane_eyre)
+      library.checkout(jane_eyre)
+    end
+
+    it { is_expected.to eq(jane_eyre) }
+  end
 end
