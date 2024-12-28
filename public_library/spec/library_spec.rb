@@ -5,6 +5,9 @@ require_relative 'spec_helper'
 RSpec.describe Library do
   subject(:library) { described_class.new('Denver Public Library') }
 
+  let(:charlotte_bronte) { Author.new({ first_name: 'Charlotte', last_name: 'Bronte' }) }
+  let(:harper_lee) { Author.new({ first_name: 'Harper', last_name: 'Lee' }) }
+
   describe '#initialize' do
     it { is_expected.to be_instance_of described_class }
 
@@ -22,9 +25,6 @@ RSpec.describe Library do
   end
 
   describe '#add_author' do
-    let(:charlotte_bronte) { Author.new({ first_name: 'Charlotte', last_name: 'Bronte' }) }
-    let(:harper_lee) { Author.new({ first_name: 'Harper', last_name: 'Lee' }) }
-
     before do
       library.add_author(charlotte_bronte)
       library.add_author(harper_lee)
@@ -42,5 +42,17 @@ RSpec.describe Library do
 
       expect(library.books).to eq([jane_eyre, professor, villette, mockingbird])
     end
+  end
+
+  describe '#publication_time_frame' do
+    subject(:time_frame) { library.publication_time_frame(charlotte_bronte) }
+
+    before do
+      charlotte_bronte.write('Jane Eyre', 'October 16, 1847')
+      charlotte_bronte.write('The Professor', '1857')
+      charlotte_bronte.write('Villette', '1853')
+    end
+
+    it { is_expected.to eq({ start: '1847', end: '1857' }) }
   end
 end
