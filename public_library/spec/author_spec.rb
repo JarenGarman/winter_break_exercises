@@ -25,7 +25,7 @@ RSpec.describe Author do
     it 'can write multiple books' do
       villette = author.write('Villette', '1853')
 
-      expect(author.books).to eq([write, villette])
+      expect(author.books).to eq([villette, write])
     end
   end
 end
