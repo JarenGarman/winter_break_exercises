@@ -35,4 +35,10 @@ class Library
 
     @checked_out_books.delete(book)
   end
+
+  def inventory
+    inventory = {}
+    @authors.each { |author| inventory[author] = author.books }
+    inventory
+  end
 end
