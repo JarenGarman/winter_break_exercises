@@ -12,4 +12,8 @@ class Library
   def books
     @authors.map(&:books).flatten
   end
+
+  def add_author(author)
+    @authors << author
+  end
 end
