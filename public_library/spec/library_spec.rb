@@ -115,4 +115,22 @@ RSpec.describe Library do
       end
     end
   end
+
+  describe '#inventory' do
+    subject(:inventory) { library.inventory }
+
+    before do
+      library.add_author(charlotte_bronte)
+      library.add_author(harper_lee)
+    end
+
+    it 'returns correct hash' do
+      jane_eyre = charlotte_bronte.write('Jane Eyre', 'October 16, 1847')
+      professor = charlotte_bronte.write('The Professor', '1857')
+      villette = charlotte_bronte.write('Villette', '1853')
+      mockingbird = harper_lee.write('To Kill a Mockingbird', 'July 11, 1960')
+
+      expect(inventory).to eq({ charlotte_bronte => [jane_eyre, professor, villette], harper_lee => [mockingbird] })
+    end
+  end
 end
