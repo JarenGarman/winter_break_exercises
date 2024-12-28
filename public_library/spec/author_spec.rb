@@ -22,6 +22,18 @@ RSpec.describe Author do
 
     it { is_expected.to be_instance_of Book }
 
+    it 'has a title' do
+      expect(write.title).to eq('Jane Eyre')
+    end
+
+    it 'has a publication year' do
+      expect(write.publication_year).to eq('1847')
+    end
+
+    it 'has an author' do
+      expect(write.author).to eq('Charlotte Bronte')
+    end
+
     it 'can write multiple books' do
       villette = author.write('Villette', '1853')
 
