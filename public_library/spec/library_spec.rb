@@ -21,17 +21,13 @@ RSpec.describe Library do
     end
   end
 
-  describe '#add_author' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+  describe '#add_author' do
     let(:charlotte_bronte) { Author.new({ first_name: 'Charlotte', last_name: 'Bronte' }) }
     let(:harper_lee) { Author.new({ first_name: 'Harper', last_name: 'Lee' }) }
-    let(:jane_eyre) { charlotte_bronte.write('Jane Eyre', 'October 16, 1847') }
-    let(:professor) { charlotte_bronte.write('The Professor', '1857') }
-    let(:villette) { charlotte_bronte.write('Villette', '1853') }
-    let(:mockingbird) { harper_lee.write('To Kill a Mockingbird', 'July 11, 1960') }
 
     before do
-      dpl.add_author(charlotte_bronte)
-      dpl.add_author(harper_lee)
+      library.add_author(charlotte_bronte)
+      library.add_author(harper_lee)
     end
 
     it 'can add authors' do
@@ -39,6 +35,11 @@ RSpec.describe Library do
     end
 
     it 'can access books' do
+      jane_eyre = charlotte_bronte.write('Jane Eyre', 'October 16, 1847')
+      professor = charlotte_bronte.write('The Professor', '1857')
+      villette = charlotte_bronte.write('Villette', '1853')
+      mockingbird = harper_lee.write('To Kill a Mockingbird', 'July 11, 1960')
+
       expect(library.books).to eq([jane_eyre, professor, villette, mockingbird])
     end
   end
