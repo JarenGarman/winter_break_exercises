@@ -29,4 +29,10 @@ class Library
     @checked_out_books << book
     book
   end
+
+  def return(book)
+    return unless checked_out_books.include?(book)
+
+    @checked_out_books.delete(book)
+  end
 end
