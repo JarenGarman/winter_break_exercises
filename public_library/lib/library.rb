@@ -27,6 +27,7 @@ class Library
     return unless books.include?(book) && !checked_out_books.include?(book)
 
     @checked_out_books << book
+    book.checkout
     book
   end
 
