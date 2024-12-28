@@ -89,6 +89,12 @@ RSpec.describe Library do
 
           expect(library.checked_out_books).to eq([jane_eyre])
         end
+
+        it 'can increase books checked out amount' do
+          library.checkout(jane_eyre)
+
+          expect(jane_eyre.checked_out_amount).to eq(1)
+        end
       end
     end
   end
