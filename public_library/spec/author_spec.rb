@@ -11,5 +11,9 @@ RSpec.describe Author do
     it 'has a name' do
       expect(author.name).to eq('Charlotte Bronte')
     end
+
+    it 'has no books' do
+      expect(author.books).to eq([])
+    end
   end
 end
