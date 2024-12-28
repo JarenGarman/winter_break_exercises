@@ -16,4 +16,9 @@ class Library
   def add_author(author)
     @authors << author
   end
+
+  def publication_time_frame(author)
+    years = author.books.map(&:publication_year).sort
+    { start: years[0], end: years[-1] }
+  end
 end
