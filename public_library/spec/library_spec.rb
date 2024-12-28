@@ -7,5 +7,9 @@ RSpec.describe Library do
 
   describe '#initialize' do
     it { is_expected.to be_instance_of described_class }
+
+    it 'has a name' do
+      expect(library.name).to eq('Denver Public Library')
+    end
   end
 end
