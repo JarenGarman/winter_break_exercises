@@ -7,6 +7,7 @@ RSpec.describe Library do
 
   let(:charlotte_bronte) { Author.new({ first_name: 'Charlotte', last_name: 'Bronte' }) }
   let(:harper_lee) { Author.new({ first_name: 'Harper', last_name: 'Lee' }) }
+  let(:jane_eyre) { charlotte_bronte.write('Jane Eyre', 'October 16, 1847') }
 
   describe '#initialize' do
     it { is_expected.to be_instance_of described_class }
@@ -21,6 +22,10 @@ RSpec.describe Library do
 
     it 'has no authors' do
       expect(library.authors).to eq([])
+    end
+
+    it 'has no checked out books' do
+      expect(library.checked_out_books).to eq([])
     end
   end
 
@@ -54,5 +59,35 @@ RSpec.describe Library do
     end
 
     it { is_expected.to eq({ start: '1847', end: '1857' }) }
+  end
+
+  describe '#checkout' do
+    subject(:checkout) { library.checkout(jane_eyre) }
+
+    context 'when the book does not exist in the library' do
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the book does exist in the library' do
+      before do
+        library.add_author(charlotte_bronte)
+      end
+
+      context 'when the book is checked out' do
+        before do
+          library.checkout(jane_eyre)
+        end
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'when the book is not checked out' do
+        it { is_expected.to eq(jane_eyre) }
+
+        it 'can check out book' do
+          expect(library.checked_out_books).to eq([jane_eyre])
+        end
+      end
+    end
   end
 end
