@@ -21,6 +21,12 @@ class Enigma
   end
 
   def transform_date(date)
-
+    offsets = date**2
+    {
+      a: offsets[-4],
+      b: offsets[-3],
+      c: offsets[-2],
+      d: offsets[-1]
+    }
   end
 end
