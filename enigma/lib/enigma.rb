@@ -4,28 +4,35 @@ require 'date'
 
 # TLD
 class Enigma
+  @@character_set = ('a'..'z').to_a << ' ' # rubocop:disable Style/ClassVars
   def encrypt(message, key, date)
-    keys = transform_key(key.digits.reverse)
-    offsets = transform_date(date**2)
+    shifts = get_shifts(key.chars, (date.to_i**2).digits.reverse)
+    encrypted = encrypt_chars(message.chars, shifts).join
+    {
+      encryption: encrypted,
+      key: key,
+      date: date
+    }
   end
 
   private
 
-  def transform_key(key_digits)
+  def get_shifts(key_chars, offsets) # rubocop:disable Metrics/AbcSize
     {
-      a: [key_digits[0], key_digits[1]].join.to_i,
-      b: [key_digits[1], key_digits[2]].join.to_i,
-      c: [key_digits[2], key_digits[3]].join.to_i,
-      d: [key_digits[3], key_digits[4]].join.to_i
+      0 => [key_chars[0], key_chars[1]].join.to_i + offsets[-4],
+      1 => [key_chars[1], key_chars[2]].join.to_i + offsets[-3],
+      2 => [key_chars[2], key_chars[3]].join.to_i + offsets[-2],
+      3 => [key_chars[3], key_chars[4]].join.to_i + offsets[-1]
     }
   end
 
-  def transform_date(offsets)
-    {
-      a: offsets[-4],
-      b: offsets[-3],
-      c: offsets[-2],
-      d: offsets[-1]
-    }
+  def encrypt_chars(chars, shifts)
+    output = []
+    chars.length.times do |i|
+      new_index = @@character_set.find_index(chars[i]) + shifts[i % 4]
+      new_index -= 27 while new_index > 26
+      output << @@character_set[new_index]
+    end
+    output
   end
 end
