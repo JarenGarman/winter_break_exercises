@@ -4,4 +4,23 @@ require 'date'
 
 # TLD
 class Enigma
+  def encrypt(message, key, date)
+    keys = transform_key(key.digits.reverse)
+    offsets = transform_date(date)
+  end
+
+  private
+
+  def transform_key(key_digits)
+    {
+      a: [key_digits[0], key_digits[1]].join.to_i,
+      b: [key_digits[1], key_digits[2]].join.to_i,
+      c: [key_digits[2], key_digits[3]].join.to_i,
+      d: [key_digits[3], key_digits[4]].join.to_i
+    }
+  end
+
+  def transform_date(date)
+
+  end
 end
