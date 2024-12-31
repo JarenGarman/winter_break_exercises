@@ -20,10 +20,12 @@ RSpec.describe Enigma do
   end
 
   describe '#decrypt' do
-    expect(enigma.decrypt('keder ohulw', '02715', '040895')).to eq({
-                                                                     decryption: 'hello world',
-                                                                     key: '02715',
-                                                                     date: '040895'
-                                                                   })
+    it 'can decrypt a message' do
+      expect(enigma.decrypt('keder ohulw', '02715', '040895')).to eq({
+                                                                       decryption: 'hello world',
+                                                                       key: '02715',
+                                                                       date: '040895'
+                                                                     })
+    end
   end
 end
