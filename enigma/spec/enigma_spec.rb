@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-RSpec.describe 'Enigma' do
+RSpec.describe Enigma do
   subject(:enigma) { described_class.new }
 
   describe '#initialize' do
