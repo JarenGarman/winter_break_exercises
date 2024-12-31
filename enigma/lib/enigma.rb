@@ -6,7 +6,7 @@ require 'date'
 class Enigma
   def encrypt(message, key, date)
     keys = transform_key(key.digits.reverse)
-    offsets = transform_date(date)
+    offsets = transform_date(date**2)
   end
 
   private
@@ -20,8 +20,7 @@ class Enigma
     }
   end
 
-  def transform_date(date)
-    offsets = date**2
+  def transform_date(offsets)
     {
       a: offsets[-4],
       b: offsets[-3],
