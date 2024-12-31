@@ -31,5 +31,11 @@ RSpec.describe Enigma do
                                                                        date: '040895'
                                                                      })
     end
+
+    it 'can decrypt a message using todays date' do
+      todays_crypt = enigma.encrypt('hello world', '02715')
+
+      expect(enigma.decrypt(todays_crypt[:encryption], '02715')[:decryption]).to eq('hello world')
+    end
   end
 end
