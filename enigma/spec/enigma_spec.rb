@@ -17,6 +17,10 @@ RSpec.describe Enigma do
                                                                        date: '040895'
                                                                      })
     end
+
+    it 'can encrypt a message using todays date' do
+      expect(enigma.encrypt('hello world', '02715')).not_to be_nil
+    end
   end
 
   describe '#decrypt' do
