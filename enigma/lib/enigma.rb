@@ -15,6 +15,16 @@ class Enigma
     }
   end
 
+  def decrypt(message, key, date)
+    shifts = get_shifts(key.chars, (date.to_i**2).digits.reverse)
+    decrypted = decrypt_chars(message.chars, shifts).join
+    {
+      decryption: decrypted,
+      key: key,
+      date: date
+    }
+  end
+
   private
 
   def get_shifts(key_chars, offsets) # rubocop:disable Metrics/AbcSize
@@ -31,6 +41,16 @@ class Enigma
     chars.length.times do |i|
       new_index = @@character_set.find_index(chars[i]) + shifts[i % 4]
       new_index -= 27 while new_index > 26
+      output << @@character_set[new_index]
+    end
+    output
+  end
+
+  def decrypt_chars(chars, shifts)
+    output = []
+    chars.length.times do |i|
+      new_index = @@character_set.find_index(chars[i]) - shifts[i % 4]
+      new_index += 27 while new_index.negative?
       output << @@character_set[new_index]
     end
     output
