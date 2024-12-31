@@ -6,20 +6,16 @@ require 'date'
 class Enigma
   @@character_set = ('a'..'z').to_a << ' ' # rubocop:disable Style/ClassVars
   def encrypt(message, key, date)
-    shifts = get_shifts(key.chars, (date.to_i**2).digits.reverse)
-    encrypted = encrypt_chars(message.chars, shifts).join
     {
-      encryption: encrypted,
+      encryption: transform_chars(message.chars, get_shifts(key.chars, (date.to_i**2).digits.reverse)).join,
       key: key,
       date: date
     }
   end
 
   def decrypt(message, key, date)
-    shifts = get_shifts(key.chars, (date.to_i**2).digits.reverse)
-    decrypted = decrypt_chars(message.chars, shifts).join
     {
-      decryption: decrypted,
+      decryption: transform_chars(message.chars, get_shifts(key.chars, (date.to_i**2).digits.reverse), -1).join,
       key: key,
       date: date
     }
@@ -36,20 +32,11 @@ class Enigma
     }
   end
 
-  def encrypt_chars(chars, shifts)
+  def transform_chars(chars, shifts, encrypt = 1)
     output = []
     chars.length.times do |i|
-      new_index = @@character_set.find_index(chars[i]) + shifts[i % 4]
+      new_index = @@character_set.find_index(chars[i]) + (shifts[i % 4] * encrypt)
       new_index -= 27 while new_index > 26
-      output << @@character_set[new_index]
-    end
-    output
-  end
-
-  def decrypt_chars(chars, shifts)
-    output = []
-    chars.length.times do |i|
-      new_index = @@character_set.find_index(chars[i]) - shifts[i % 4]
       new_index += 27 while new_index.negative?
       output << @@character_set[new_index]
     end
