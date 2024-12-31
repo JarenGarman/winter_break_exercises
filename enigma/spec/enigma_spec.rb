@@ -8,4 +8,14 @@ RSpec.describe Enigma do
   describe '#initialize' do
     it { is_expected.to be_instance_of described_class }
   end
+
+  describe '#encrypt' do
+    it 'can encrypt a message' do
+      expect(enigma.encrypt('hello world', '02715', '040895')).to eq({
+                                                                       encryption: 'keder ohulw',
+                                                                       key: '02715',
+                                                                       date: '040895'
+                                                                     })
+    end
+  end
 end
