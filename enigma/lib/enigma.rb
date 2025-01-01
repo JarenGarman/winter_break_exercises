@@ -5,7 +5,7 @@ require 'date'
 # TLD
 class Enigma
   @@character_set = ('a'..'z').to_a << ' ' # rubocop:disable Style/ClassVars
-  def encrypt(message, key, date = today_string)
+  def encrypt(message, key, date = Date.today.strftime('%d%m%y'))
     {
       encryption: get_output(message, key, date, 1),
       key: key,
@@ -13,7 +13,7 @@ class Enigma
     }
   end
 
-  def decrypt(message, key, date = today_string)
+  def decrypt(message, key, date = Date.today.strftime('%d%m%y'))
     {
       decryption: get_output(message, key, date, -1),
       key: key,
@@ -45,10 +45,5 @@ class Enigma
       output << @@character_set[new_index]
     end
     output
-  end
-
-  def today_string
-    today = Date.today
-    [today.day.to_s.rjust(2, '0'), today.month.to_s.rjust(2, '0'), today.year.to_s[-2..]].flatten.join
   end
 end
