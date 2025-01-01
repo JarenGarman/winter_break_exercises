@@ -18,6 +18,14 @@ RSpec.describe Enigma do
                                                                      })
     end
 
+    it 'can encrypt a message with uppercase characters' do
+      expect(enigma.encrypt('HELLO WORLD', '02715', '040895')).to eq({
+                                                                       encryption: 'keder ohulw',
+                                                                       key: '02715',
+                                                                       date: '040895'
+                                                                     })
+    end
+
     it 'can encrypt a message using todays date' do
       expect(enigma.encrypt('hello world', '02715')).not_to be_nil
     end
