@@ -22,14 +22,14 @@ class Enigma
 
   private
 
-  @character_set = ('a'..'z').to_a << ' '
+  @char_set = ('a'..'z').to_a << ' '
 
   class << self
-    attr_reader :character_set
+    attr_reader :char_set
   end
 
-  def character_set
-    self.class.character_set
+  def char_set
+    self.class.char_set
   end
 
   def get_output(message, key, date, sign_modifier)
@@ -46,13 +46,13 @@ class Enigma
 
   def transform_chars(chars, shifts, sign_modifier)
     chars.each_with_index.map do |char, i|
-      if character_set.find_index(char).nil?
+      if char_set.find_index(char).nil?
         char
       else
-        new_index = character_set.find_index(char) + (shifts.rotate(i % 4)[0] * sign_modifier)
+        new_index = char_set.find_index(char) + (shifts.rotate(i % 4)[0] * sign_modifier)
         new_index -= 27 while new_index > 26
         new_index += 27 while new_index.negative?
-        character_set[new_index]
+        char_set[new_index]
       end
     end
   end
