@@ -33,7 +33,7 @@ class Enigma
   end
 
   def get_output(message, key, date, sign_modifier)
-    transform_chars(message.chars, get_shifts(key.chars, (date.to_i**2).digits.reverse), sign_modifier).join
+    transform_chars(message.downcase.chars, get_shifts(key.chars, (date.to_i**2).digits.reverse), sign_modifier).join
   end
 
   def get_shifts(key_chars, offsets)
