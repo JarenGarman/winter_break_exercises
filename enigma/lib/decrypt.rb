@@ -3,7 +3,6 @@
 require_relative 'enigma'
 
 encrypted_file, filename, key, date = ARGV
-encrypted = File.read(encrypted_file)
-decrypted = Enigma.new.decrypt(encrypted, key, date)
+decrypted = Enigma.new.decrypt(File.read(encrypted_file), key, date)
 File.write(filename, decrypted[:decryption])
 puts "Created '#{filename}' with the key #{decrypted[:key]} and date #{decrypted[:date]}"
