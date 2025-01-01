@@ -27,19 +27,18 @@ class Enigma
     transform_chars(message.chars, get_shifts(key.chars, (date.to_i**2).digits.reverse), sign_modifier).join
   end
 
-  def get_shifts(key_chars, offsets) # rubocop:disable Metrics/AbcSize
-    {
-      0 => [key_chars[0], key_chars[1]].join.to_i + offsets[-4],
-      1 => [key_chars[1], key_chars[2]].join.to_i + offsets[-3],
-      2 => [key_chars[2], key_chars[3]].join.to_i + offsets[-2],
-      3 => [key_chars[3], key_chars[4]].join.to_i + offsets[-1]
-    }
+  def get_shifts(key_chars, offsets)
+    shifts = []
+    4.times do |i|
+      shifts << ([key_chars[0 + i], key_chars[1 + i]].join.to_i + offsets[i - 4])
+    end
+    shifts
   end
 
   def transform_chars(chars, shifts, sign_modifier)
     output = []
     chars.each_with_index do |char, i|
-      new_index = @@character_set.find_index(char) + (shifts[i % 4] * sign_modifier)
+      new_index = @@character_set.find_index(char) + (shifts.rotate(i % 4)[0] * sign_modifier)
       new_index -= 27 while new_index > 26
       new_index += 27 while new_index.negative?
       output << @@character_set[new_index]
