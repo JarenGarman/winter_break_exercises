@@ -33,13 +33,13 @@ class Enigma
   end
 
   def get_output(message, key, date, sign_modifier)
-    transform_chars(message.downcase.chars, get_shifts(key.chars, (date.to_i**2).digits.reverse), sign_modifier).join
+    transform_chars(message.downcase.chars, get_shifts(key.chars, (date.to_i**2).digits), sign_modifier).join
   end
 
   def get_shifts(key_chars, offsets)
     shifts = []
     4.times do |i|
-      shifts << ([key_chars[0 + i], key_chars[1 + i]].join.to_i + offsets[i - 4])
+      shifts << ([key_chars[i], key_chars[i + 1]].join.to_i + offsets[3 - i])
     end
     shifts
   end
