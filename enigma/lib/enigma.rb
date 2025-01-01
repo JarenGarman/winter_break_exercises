@@ -45,13 +45,15 @@ class Enigma
   end
 
   def transform_chars(chars, shifts, sign_modifier)
-    output = []
-    chars.each_with_index do |char, i|
-      new_index = character_set.find_index(char) + (shifts.rotate(i % 4)[0] * sign_modifier)
-      new_index -= 27 while new_index > 26
-      new_index += 27 while new_index.negative?
-      output << character_set[new_index]
+    chars.each_with_index.map do |char, i|
+      if character_set.find_index(char).nil?
+        char
+      else
+        new_index = character_set.find_index(char) + (shifts.rotate(i % 4)[0] * sign_modifier)
+        new_index -= 27 while new_index > 26
+        new_index += 27 while new_index.negative?
+        character_set[new_index]
+      end
     end
-    output
   end
 end
