@@ -4,7 +4,7 @@ require 'date'
 
 # TLD
 class Enigma
-  def encrypt(message, key, date = Date.today.strftime('%d%m%y'))
+  def encrypt(message, key = Random.new.rand(99_999).to_s.rjust(5, '0'), date = Date.today.strftime('%d%m%y'))
     {
       encryption: get_output(message, key, date, 1),
       key: key,
