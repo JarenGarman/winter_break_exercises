@@ -4,7 +4,6 @@ require 'date'
 
 # TLD
 class Enigma
-  @@character_set = ('a'..'z').to_a << ' ' # rubocop:disable Style/ClassVars
   def encrypt(message, key, date = Date.today.strftime('%d%m%y'))
     {
       encryption: get_output(message, key, date, 1),
@@ -23,6 +22,16 @@ class Enigma
 
   private
 
+  @character_set = ('a'..'z').to_a << ' '
+
+  class << self
+    attr_reader :character_set
+  end
+
+  def character_set
+    self.class.character_set
+  end
+
   def get_output(message, key, date, sign_modifier)
     transform_chars(message.chars, get_shifts(key.chars, (date.to_i**2).digits.reverse), sign_modifier).join
   end
@@ -38,10 +47,10 @@ class Enigma
   def transform_chars(chars, shifts, sign_modifier)
     output = []
     chars.each_with_index do |char, i|
-      new_index = @@character_set.find_index(char) + (shifts.rotate(i % 4)[0] * sign_modifier)
+      new_index = character_set.find_index(char) + (shifts.rotate(i % 4)[0] * sign_modifier)
       new_index -= 27 while new_index > 26
       new_index += 27 while new_index.negative?
-      output << @@character_set[new_index]
+      output << character_set[new_index]
     end
     output
   end
