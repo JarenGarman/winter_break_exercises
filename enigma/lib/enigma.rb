@@ -38,8 +38,8 @@ class Enigma
 
   def transform_chars(chars, shifts, sign_modifier)
     output = []
-    chars.length.times do |i|
-      new_index = @@character_set.find_index(chars[i]) + (shifts[i % 4] * sign_modifier)
+    chars.each_with_index do |char, i|
+      new_index = @@character_set.find_index(char) + (shifts[i % 4] * sign_modifier)
       new_index -= 27 while new_index > 26
       new_index += 27 while new_index.negative?
       output << @@character_set[new_index]
