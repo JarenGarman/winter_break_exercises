@@ -67,40 +67,36 @@ class Enigma # rubocop:disable Metrics/ClassLength
   end
 
   def get_key(message, date) # rubocop:disable Metrics/AbcSize
-    key_offsets = get_key_offset(message[-4..].chars.each_with_index.map do |char, i|
-      get_shift(char, i)
-    end, (date.to_i**2).digits)
-    possible_keys = filter_keys(get_possible_keys(key_offsets))
+    shifts = message[-4..].chars.each_with_index.map { |char, i| crack_get_shifts(char, i) }
+    ordered_shifts = shifts.rotate(4 - (message.length % 4))
+    ordered_key_offsets = get_key_offset(ordered_shifts, (date.to_i**2).digits)
+    possible_keys = filter_keys(ordered_key_offsets)
     possible_keys = filter_keys(possible_keys) until possible_keys.map(&:length).all?(1) || possible_keys.any?([])
-    possible_keys[0][0] + possible_keys[2][0] + possible_keys[3][0][1]
+    possible_keys[0].first + possible_keys[2].first + possible_keys[3].first[1]
   end
 
-  def get_shift(char, index)
+  def crack_get_shifts(char, index)
     char_i = char_set.find_index(char)
     index_i = char_set.find_index(crack_ending[index])
-    if char_i >= index_i
-      char_i - index_i
-    else
-      27 - (index_i - char_i)
-    end
+    get_possible_shifts(if char_i >= index_i
+                          char_i - index_i
+                        else
+                          27 - (index_i - char_i)
+                        end)
   end
 
-  def get_key_offset(shifts, date)
-    shifts.each_with_index.map do |shift, i|
-      offset = shift - date[3 - i]
-      offset += 27 if offset.negative?
-      offset
+  def get_possible_shifts(starting_shift)
+    array = [starting_shift]
+    until starting_shift + 27 > 108
+      starting_shift += 27
+      array << starting_shift
     end
+    array
   end
 
-  def get_possible_keys(key_offsets)
-    key_offsets.map do |key_offset|
-      array = [key_offset]
-      until key_offset + 27 > 99
-        key_offset += 27
-        array << key_offset
-      end
-      array.map { |possible_num| possible_num.to_s.rjust(2, '0') }
+  def get_key_offset(all_shifts, date)
+    all_shifts.each_with_index.map do |shifts, i|
+      shifts.map { |shift| shift - date[3 - i] }.reject(&:negative?).map { |shift| shift.to_s.rjust(2, '0') }
     end
   end
 
