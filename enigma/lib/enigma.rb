@@ -71,7 +71,11 @@ class Enigma # rubocop:disable Metrics/ClassLength
     ordered_shifts = shifts.rotate(4 - (message.length % 4))
     ordered_key_offsets = get_key_offset(ordered_shifts, (date.to_i**2).digits)
     possible_keys = filter_keys(ordered_key_offsets)
-    possible_keys = filter_keys(possible_keys) until possible_keys.map(&:length).all?(1) || possible_keys.any?([])
+    i = 0
+    until possible_keys.map(&:length).all?(1) || possible_keys.any?([]) || i == 100
+      possible_keys = filter_keys(possible_keys)
+      i += 1
+    end
     possible_keys[0].first + possible_keys[2].first + possible_keys[3].first[1]
   end
 
