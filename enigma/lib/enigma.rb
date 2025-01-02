@@ -70,6 +70,7 @@ class Enigma
     key_offsets = get_key_offset(message[-4..].chars.each_with_index.map do |char, i|
       get_shift(char, i)
     end, (date.to_i**2).digits)
+    possible_keys = get_possible_keys(key_offsets)
   end
 
   def get_shift(char, index)
@@ -86,5 +87,18 @@ class Enigma
     shifts.each_with_index.map do |shift, i|
       shift - date[3 - i]
     end
+  end
+
+  def get_possible_keys(key_offsets)
+    key_offsets.group_by do |key_offset|
+      array = [key_offset]
+      until key_offset > 99
+        key_offset += 27
+        array << key_offset
+      end
+      array.map do |possible_num|
+        possible_num.to_s.rjust(2, '0')
+      end
+    end.invert
   end
 end
