@@ -20,16 +20,25 @@ class Enigma
     }
   end
 
+  def crack(message, date = Date.today.strftime('%d%m%y'))
+    decrypt(message, get_key(message, date), date)
+  end
+
   private
 
   @char_set = ('a'..'z').to_a << ' '
+  @crack_ending = ' end'
 
   class << self
-    attr_reader :char_set
+    attr_reader :char_set, :crack_ending
   end
 
   def char_set
     self.class.char_set
+  end
+
+  def crack_ending
+    self.class.crack_ending
   end
 
   def get_output(message, key, date, sign_modifier)
@@ -54,6 +63,28 @@ class Enigma
         new_index += 27 while new_index.negative?
         char_set[new_index]
       end
+    end
+  end
+
+  def get_key(message, date)
+    key_offsets = get_key_offset(message[-4..].chars.each_with_index.map do |char, i|
+      get_shift(char, i)
+    end, (date.to_i**2).digits)
+  end
+
+  def get_shift(char, index)
+    char_i = char_set.find_index(char)
+    index_i = char_set.find_index(crack_ending[index])
+    if char_i > index_i
+      char_i - index_i
+    else
+      index_i - char_i
+    end
+  end
+
+  def get_key_offset(shifts, date)
+    shifts.each_with_index.map do |shift, i|
+      shift - date[3 - i]
     end
   end
 end
